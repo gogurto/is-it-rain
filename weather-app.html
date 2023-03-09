@@ -33,11 +33,11 @@
             (condition) => condition.id >= 500 && condition.id <= 531
           );
 
-          let message = '<p> The weather in ${location} is ${description} and the temperature is ${temperature} degrees F.</p>';
+          let message = `<p> The weather in ${location} is ${description} and the temperature is ${temperature} degrees F.</p>`;
           if (isRaining) {
-            message += '<p>Tut tut! Looks like it is raining in ${location}</p>';
+            message += `<p>Tut tut! Looks like it is raining in ${location}</p>`;
           } else {
-          message += '<p> No rain currently in ${location}</p>';
+          message += `<p> No rain currently in ${location}</p>`;
           }
 
           weatherInfo.innerHTML = message;
