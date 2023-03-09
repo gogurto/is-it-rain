@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Logan's Weather App "Is it rain"</title>
+</head>
+<body>
+    <h1>Get Weather Information <i>so we can tell if it's raining</i></h1>
+    <form>
+      <label for="location">Enter location:</label>
+      <input type="text" id="location" name="location">
+      <button type="submit">Get Weather</button>
+    </form>
+    <div id="weather-info"></div>
+
+    <script>
+      const form = document.querySelector('form');
+      const weatherInfo = document.querySelector('#weather-info');
+
+      form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const location = event.target.elements.location.value;
+        const apiKey = 'df52e7dc5a4bf6019927cf34a3247c74';
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+
+        try {
+          const response = await fetch(url);
+          const weatherData = await response.json();
+
+          const description = weatherData.weather[0].description;
+          const temperature = weatherData.main.temp;
+
+          weatherInfo.innerHTML = `<p>The weather in ${location} is ${description} and the temperature is ${temperature} degrees Celsius.</p>`;
+        } catch (error) {
+          console.error(error);
+          weatherInfo.innerHTML = '<p>An error occurred while fetching weather data. Please try again later.</p>';
+        }
+      });
+    </script>
+</body>
+</html>
