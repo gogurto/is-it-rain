@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Logan's Weather App "Is it rain"</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <h1>Get Weather Information <i>so we can tell if it's raining</i></h1>
@@ -20,7 +21,7 @@
         event.preventDefault();
         const location = event.target.elements.location.value;
         const apiKey = 'df52e7dc5a4bf6019927cf34a3247c74';
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=metric`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey}&units=imperial`;
 
         try {
           const response = await fetch(url);
@@ -28,11 +29,21 @@
 
           const description = weatherData.weather[0].description;
           const temperature = weatherData.main.temp;
+          const isRaining = weatherData.weather.some(
+            (condition) => condition.id >= 500 && condition.id <= 531
+          );
 
-          weatherInfo.innerHTML = `<p>The weather in ${location} is ${description} and the temperature is ${temperature} degrees Celsius.</p>`;
+          let message = '<p> The weather in ${location} is ${description} and the temperature is ${temperature} degrees F.</p>';
+          if (isRaining) {
+            message += '<p>Tut tut! Looks like it is raining in ${location}</p>';
+          } else {
+          message += '<p> No rain currently in ${location}</p>';
+          }
+
+          weatherInfo.innerHTML = message;
         } catch (error) {
           console.error(error);
-          weatherInfo.innerHTML = '<p>An error occurred while fetching weather data. Please try again later.</p>';
+          weatherInfo.innerHTML = '<p>An error occurred while fetching weather data. Please try again later, so we can see if it is raining in ${location}.</p>';
         }
       });
     </script>
